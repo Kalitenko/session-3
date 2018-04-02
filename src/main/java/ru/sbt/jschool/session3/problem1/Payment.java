@@ -4,16 +4,17 @@ import java.util.Objects;
 
 /**
  */
+// платеж
 public class Payment {
-    private long operationID;
+    private long operationID;           // ID операции (операция может быть только одна)
 
-    private long payerID;
-    private long payerAccountID;
+    private long payerID;               // ID плательщика
+    private long payerAccountID;        // ID счета плательщика
 
-    private long recipientID;
-    private long recipientAccountID;
+    private long recipientID;           // ID получателя
+    private long recipientAccountID;    // ID счета получателя
 
-    private float amount;
+    private float amount;               // сумма платежа
 
     public Payment(long operationID, long payerID, long payerAccountID, long recipientID, long recipientAccountID,
         float amount) {

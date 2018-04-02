@@ -5,13 +5,13 @@ import java.util.Objects;
 /**
  */
 public class Account {
-    private long clientID;
+    private long clientID;      // идентификатор клиента (клиент может быть только один)
 
-    private long accountID;
+    private long accountID;     // идентификатор счета (у одного клиента может быть множество счетов)
 
-    private Currency currency;
+    private Currency currency;  // валюта счета
 
-    private float balance;
+    private float balance;      // остаток на счете
 
     public Account(long clientID, long accountID, Currency currency, float balance) {
         this.clientID = clientID;

@@ -16,7 +16,7 @@ public class ParkingLot implements ParkingService {
     // автомобили на стоянке
     private HashMap<Long, Car> carsOnParkingLot = new HashMap<>();
 
-    ParkingLot(int num, int cost){
+    ParkingLot(int num, double cost){
 
         this.numberOfParkingSpaces = num;
         this.costPerHour = cost;
@@ -36,7 +36,7 @@ public class ParkingLot implements ParkingService {
 
         // если автомобиля нет на парковке и есть свободные места
         // то автомобиль может въехать на парковку
-        numberOfParkingSpaces++;
+        numberCarsOnParkingLot++;
         Car car = new Car(carID, timeOfDriveIn);
         carsOnParkingLot.put(carID, car);
         return true;
@@ -60,10 +60,32 @@ public class ParkingLot implements ParkingService {
         if(timeOfLeave < car.getstartTime())
             return cost;
 
-        long parkingTime = timeOfLeave - car.getstartTime();
-
-        cost = parkingTime * costPerHour;
+        cost = calculateCost(car.getstartTime(), timeOfLeave);
 
         return cost;
     }
+
+    // расчет стоимости парковки
+    private double calculateCost(long startTime, long finalTime){
+
+        double cost = 0;
+
+        // общее время парковки
+        long timeOnParking = finalTime - startTime;
+
+        long nightFactor = 2;
+        long startNight = 23;
+        long startDay = 6;
+
+        while(timeOnParking > 0) {
+            if ((startTime + timeOnParking) % 24 >= startNight || (startTime + timeOnParking) % 24 <= startDay)
+                cost += costPerHour * nightFactor;
+            else
+                cost += costPerHour;
+            timeOnParking--;
+        }
+
+        return cost;
+    }
+
 }

@@ -8,6 +8,8 @@ public class AccountServiceImpl implements AccountService {
     protected FraudMonitoring fraudMonitoring;
 
     private Map<Long, Account> accounts = new HashMap<>();
+    private Map<Long, List<Account>> clients = new HashMap<>();
+    private List<Account> clientsList = new LinkedList<>();
     private Set<Long> payments = new HashSet<>();
 
     public AccountServiceImpl(FraudMonitoring fraudMonitoring) {
@@ -26,18 +28,21 @@ public class AccountServiceImpl implements AccountService {
         Account account = new Account(clientID, accountID, currency, initialBalance);
 
         accounts.put(accountID, account);
+
+        clientsList.add(account);
+        clients.put(clientID, clientsList);
+
         return Result.OK;
     }
+
 
     @Override public List<Account> findForClient(long clientID) {
 
         List<Account> finForClientList = new ArrayList<>();
-
-        List<Account> accountList = new ArrayList<>(accounts.values());
-
-        for(Account x : accountList)
-            if(x.getClientID() == clientID)
-                finForClientList.add(x);
+        if(clients.get(clientID) != null)
+            finForClientList = clients.get(clientID);
+        else
+            finForClientList.clear();
 
         return finForClientList;
     }

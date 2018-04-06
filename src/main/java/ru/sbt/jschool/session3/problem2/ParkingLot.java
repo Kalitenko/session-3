@@ -9,8 +9,6 @@ public class ParkingLot implements ParkingService {
 
     // вместимость автостоянки
     private int numberOfParkingSpaces;
-    // количество автомобилей на стоянке
-    private int numberCarsOnParkingLot;
     // стоимость часа стоянки
     private double costPerHour;
     // автомобили на стоянке
@@ -27,7 +25,7 @@ public class ParkingLot implements ParkingService {
     public boolean driveIn(long carID, long timeOfDriveIn) {
 
         // проверка на наличие свободных мест на парковке
-        if(!(numberCarsOnParkingLot < numberOfParkingSpaces))
+        if(numberOfParkingSpaces <= 0)
             return false;
 
         // проверка на наличие автомобиля с таким же номером
@@ -36,7 +34,7 @@ public class ParkingLot implements ParkingService {
 
         // если автомобиля нет на парковке и есть свободные места
         // то автомобиль может въехать на парковку
-        numberCarsOnParkingLot++;
+        numberOfParkingSpaces--;
         Car car = new Car(carID, timeOfDriveIn);
         carsOnParkingLot.put(carID, car);
         return true;
